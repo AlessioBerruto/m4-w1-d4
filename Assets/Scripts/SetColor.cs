@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SetColor : MonoBehaviour
 {
     private Renderer _renderer;
     private Color _defaultColor;
+
     void Start()
     {
         _renderer = GetComponent<Renderer>();
@@ -13,35 +12,32 @@ public class SetColor : MonoBehaviour
         _defaultColor = _renderer.material.color;
     }
 
-    private void OnMouseDown()
-    {
-        _renderer.material.color = ColorManager.Instance.SelectedColor;
-    }
-
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(0))
         {
-            if (IsMouseOverThisObject())
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                _renderer.material.color = _defaultColor;
+                if (hit.transform == transform)
+                {
+                    _renderer.material.color = ColorManager.Instance.SelectedColor;
+                }
             }
         }
-    }
 
-    private bool IsMouseOverThisObject()
-    {
-        return _isMouseOver;
-    }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    private bool _isMouseOver = false;
-
-    private void OnMouseEnter()
-    {
-        _isMouseOver = true;
-    }
-    private void OnMouseExit()
-    {
-        _isMouseOver = false;
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.transform == transform)
+                {
+                    _renderer.material.color = _defaultColor;
+                }
+            }
+        }
     }
 }

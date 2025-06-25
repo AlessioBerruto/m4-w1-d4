@@ -49,7 +49,7 @@ public class Instantiator2D : MonoBehaviour
             GameObject colorQuad = Instantiate(_colorPickerQuadPrefab, position, _colorPickerQuadPrefab.transform.rotation, _gridParentTransform);
 
             Renderer rend = colorQuad.GetComponent<Renderer>();
-            rend.material = new Material(rend.material); 
+            rend.material = new Material(rend.material);
             rend.material.color = _pickerColors[i];
         }
 
